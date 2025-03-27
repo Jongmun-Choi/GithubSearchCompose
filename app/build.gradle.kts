@@ -19,6 +19,20 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+            isShrinkResources = false
+            isMinifyEnabled = false
+
+            buildConfigField("String", "ACCESS_URL", "\"https://github.com\"")
+            buildConfigField("String", "API_URL", "\"https://api.github.com\"")
+            buildConfigField("String","clientId", "\"Ov23lic4V0Q63ZTvg1j4\"")
+            buildConfigField("String", "clientSecret", "\"8310b2ef65d919da55704a87b32681fe2952fe9b\"")
+            buildConfigField("String", "Shared_Preference_Name", "\"TokenInfo\"")
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -37,6 +51,8 @@ android {
     buildFeatures {
         compose = true
     }
+
+
 }
 
 dependencies {
