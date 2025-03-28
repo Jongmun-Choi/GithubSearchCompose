@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -26,7 +28,7 @@ android {
             isShrinkResources = false
             isMinifyEnabled = false
 
-            buildConfigField("String", "ACCESS_URL", "\"https://github.com\"")
+            buildConfigField("String", "AUTH_URL", "\"https://github.com\"")
             buildConfigField("String", "API_URL", "\"https://api.github.com\"")
             buildConfigField("String","clientId", "\"Ov23lic4V0Q63ZTvg1j4\"")
             buildConfigField("String", "clientSecret", "\"8310b2ef65d919da55704a87b32681fe2952fe9b\"")
@@ -50,6 +52,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
 
@@ -72,4 +75,18 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.browser)
+
+    // di - hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    // retrofit2
+    implementation(libs.retrofit)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    // moshi
+    implementation(libs.moshi.converter)
+    ksp(libs.moshi.kotlin.codegen)
 }

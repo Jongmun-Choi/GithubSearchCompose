@@ -14,7 +14,7 @@ moshiVersion = "1.15.2"
 moshiConvertor = "2.11.0"
 hiltAndroid = "2.53.1"
 securityCryptoKtx = "1.1.0-alpha06"
-
+browser = "1.8.0"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -40,7 +40,7 @@ okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 moshi-converter = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "moshiConvertor"}
 moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshiVersion" }
-
+androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
