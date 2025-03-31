@@ -1,8 +1,5 @@
 package com.dave.githubsearchcompose.network
 
-import android.preference.PreferenceDataStore
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.dave.githubsearchcompose.BuildConfig
 import com.dave.githubsearchcompose.repository.ApiRepository
 import com.dave.githubsearchcompose.repository.AuthRepository
@@ -12,20 +9,18 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.flow.map
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule @Inject constructor( private val tokenRepository: TokenRepository) {
+object NetworkModule {
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
@@ -43,8 +38,11 @@ class NetworkModule @Inject constructor( private val tokenRepository: TokenRepos
 
     private val resultFactory = ResultFactory()
 
-    private val interceptor =
-        Interceptor { chain ->
+    @Provides
+    @Singleton
+    @Auth
+    fun provideAuthInterceptor(tokenRepository: TokenRepository) : Interceptor {
+        return Interceptor { chain ->
             val requestBuilder = chain.request().newBuilder()
 
             requestBuilder.addHeader("Accept", "application/json")
@@ -54,11 +52,13 @@ class NetworkModule @Inject constructor( private val tokenRepository: TokenRepos
 
             chain.proceed(requestBuilder.build())
         }
+    }
+
 
     @Provides
     @Singleton
     @Auth
-    fun provideAuthOkHttpClient() =
+    fun provideAuthOkHttpClient(@Auth interceptor: Interceptor) =
         if(BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -94,10 +94,27 @@ class NetworkModule @Inject constructor( private val tokenRepository: TokenRepos
     @Auth
     fun provideAccessRepository(@Auth accessService: AuthService)= AuthRepository(accessService)
 
+
     @Provides
     @Singleton
     @Api
-    fun provideApiOkHttpClient() =
+    fun provideApiInterceptor(tokenRepository: TokenRepository) : Interceptor {
+        return Interceptor { chain ->
+            val requestBuilder = chain.request().newBuilder()
+
+            requestBuilder.addHeader("Accept", "application/json")
+            tokenRepository.getToken().let { accessToken ->
+                requestBuilder.addHeader("Authorization", "Bearer $accessToken")
+            }
+
+            chain.proceed(requestBuilder.build())
+        }
+    }
+
+    @Provides
+    @Singleton
+    @Api
+    fun provideApiOkHttpClient(@Api interceptor: Interceptor) =
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
