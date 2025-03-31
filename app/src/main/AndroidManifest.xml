@@ -17,6 +17,7 @@
         <activity
             android:name=".view.SplashActivity"
             android:exported="true"
+            android:launchMode="singleInstance"
             android:label="@string/app_name"
             android:theme="@style/Theme.MySplashScreen">
             <intent-filter>
@@ -24,7 +25,22 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="github-auth"
+                    android:scheme="github"/>
+            </intent-filter>
+
         </activity>
+
+        <activity android:name=".view.userlist.UserListActivity"/>
+
     </application>
 
 </manifest>

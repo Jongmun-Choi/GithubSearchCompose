@@ -17,8 +17,11 @@ class TokenRepository @Inject constructor(private val dataStore : DataStore<Pref
 
     fun getToken(): Flow<String> =
         dataStore.data.map { preference ->
-            decrypt(preference[TOKEN_KEY] ?: "")
+            preference[TOKEN_KEY].let { token ->
+                if(token.isNullOrEmpty()) "" else decrypt(token)
+            }
         }
+
     suspend fun saveToken(token: String) {
         dataStore.edit { preference ->
             preference[TOKEN_KEY] = encrypt(token)
@@ -67,7 +70,7 @@ class TokenRepository @Inject constructor(private val dataStore : DataStore<Pref
 
     companion object {
         val TOKEN_KEY = stringPreferencesKey("ACCESS_TOKEN")
-        val SECRET_KEY = "GithubSecret"
+        val SECRET_KEY = "GithubSecretData"
         val IV = "GitHubCompose"
         val CIPHER = "AES/GCM/NoPadding"
     }

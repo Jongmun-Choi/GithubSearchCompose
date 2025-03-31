@@ -78,6 +78,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.browser)
     implementation(libs.androidx.core.splashscreen)
+
+    //Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
     // di - hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
