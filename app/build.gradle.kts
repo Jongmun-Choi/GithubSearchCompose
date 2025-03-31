@@ -90,4 +90,7 @@ dependencies {
     // moshi
     implementation(libs.moshi.converter)
     ksp(libs.moshi.kotlin.codegen)
+
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
 }

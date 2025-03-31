@@ -1,25 +1,31 @@
 package com.dave.githubsearchcompose.network
 
+import android.preference.PreferenceDataStore
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.dave.githubsearchcompose.BuildConfig
 import com.dave.githubsearchcompose.repository.ApiRepository
 import com.dave.githubsearchcompose.repository.AuthRepository
+import com.dave.githubsearchcompose.repository.TokenRepository
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.map
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+class NetworkModule @Inject constructor( private val tokenRepository: TokenRepository) {
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
@@ -40,6 +46,12 @@ object NetworkModule {
     private val interceptor =
         Interceptor { chain ->
             val requestBuilder = chain.request().newBuilder()
+
+            requestBuilder.addHeader("Accept", "application/json")
+            tokenRepository.getToken().let { accessToken ->
+                requestBuilder.addHeader("Authorization", "Bearer $accessToken")
+            }
+
             chain.proceed(requestBuilder.build())
         }
 
