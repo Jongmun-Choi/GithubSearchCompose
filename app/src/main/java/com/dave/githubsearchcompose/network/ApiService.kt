@@ -1,5 +1,6 @@
 package com.dave.githubsearchcompose.network
 
+import com.dave.githubsearchcompose.model.UserSearchResult
 import retrofit2.http.GET
 import retrofit2.http.Query
 
