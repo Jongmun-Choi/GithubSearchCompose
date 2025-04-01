@@ -1,4 +1,5 @@
 [versions]
+accompanistPager = "0.36.0"
 agp = "8.9.1"
 coreSplashscreen = "1.0.1"
 datastorePreferences = "1.1.4"
@@ -19,6 +20,8 @@ kotlinxCoroutinesCore = "1.9.0"
 browser = "1.8.0"
 toolsCore = "1.0.0-alpha13"
 [libraries]
+accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
+accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanistPager" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
