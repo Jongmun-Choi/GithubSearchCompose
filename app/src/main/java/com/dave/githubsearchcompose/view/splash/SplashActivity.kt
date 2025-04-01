@@ -1,4 +1,4 @@
-package com.dave.githubsearchcompose.view
+package com.dave.githubsearchcompose.view.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,14 +9,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.browser.customtabs.CustomTabsIntent
-import com.dave.githubsearchcompose.ui.theme.GithubSearchComposeTheme
-import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import com.dave.githubsearchcompose.BuildConfig
-import com.dave.githubsearchcompose.view.splash.SplashScreen
-import com.dave.githubsearchcompose.view.userlist.UserListActivity
+import com.dave.githubsearchcompose.ui.theme.GithubSearchComposeTheme
+import com.dave.githubsearchcompose.view.main.MainActivity
 import com.dave.githubsearchcompose.viewmodel.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
@@ -35,7 +34,7 @@ class SplashActivity : ComponentActivity() {
                     loginProcess = { loginProcess() },
                     viewModel = viewModel,
                     moveToUserList = {
-                        startActivity(Intent(this, UserListActivity::class.java))
+                        startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     }
                 )
