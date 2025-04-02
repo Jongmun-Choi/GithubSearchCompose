@@ -99,4 +99,7 @@ dependencies {
     // DataStore
     implementation(libs.androidx.datastore.preferences)
 
+    // Glide
+    implementation(libs.compose)
+
 }

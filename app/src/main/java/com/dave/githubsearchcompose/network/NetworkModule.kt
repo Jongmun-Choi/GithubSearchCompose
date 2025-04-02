@@ -1,5 +1,6 @@
 package com.dave.githubsearchcompose.network
 
+import androidx.lifecycle.asLiveData
 import com.dave.githubsearchcompose.BuildConfig
 import com.dave.githubsearchcompose.repository.ApiRepository
 import com.dave.githubsearchcompose.repository.AuthRepository
@@ -9,6 +10,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,6 +20,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
+import kotlin.coroutines.coroutineContext
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -100,14 +104,16 @@ object NetworkModule {
     @Api
     fun provideApiInterceptor(tokenRepository: TokenRepository) : Interceptor {
         return Interceptor { chain ->
+
             val requestBuilder = chain.request().newBuilder()
 
             requestBuilder.addHeader("Accept", "application/json")
-            tokenRepository.getToken().let { accessToken ->
-                requestBuilder.addHeader("Authorization", "Bearer $accessToken")
+            val token = runBlocking {
+                tokenRepository.getToken().first()
             }
-
+            requestBuilder.addHeader("Authorization", "Bearer $token")
             chain.proceed(requestBuilder.build())
+
         }
     }
 

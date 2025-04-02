@@ -48,7 +48,6 @@ fun SplashScreen(
 
     val loginState : LoginState by viewModel.loginState.collectAsStateWithLifecycle()
 
-
     val alpha = remember {
         Animatable(0f)
     }

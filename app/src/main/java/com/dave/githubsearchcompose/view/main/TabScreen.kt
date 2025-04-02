@@ -19,13 +19,16 @@ import com.dave.githubsearchcompose.model.TabData
 import com.dave.githubsearchcompose.ui.theme.Purple40
 import com.dave.githubsearchcompose.view.profile.ProfileScreen
 import com.dave.githubsearchcompose.view.userlist.UserListScreen
+import com.dave.githubsearchcompose.viewmodel.UserViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TabScreen() {
+fun TabScreen(
+    viewModel: UserViewModel
+) {
 
-    val pages = listOf(TabData("Search", R.drawable.ic_search, { UserListScreen() }), TabData("Profile", R.drawable.ic_profile, { ProfileScreen() }))
+    val pages = listOf(TabData("Search", R.drawable.ic_search, { UserListScreen() }), TabData("Profile", R.drawable.ic_profile, { ProfileScreen(viewModel = viewModel, user = null) }))
 
     val coroutineScope = rememberCoroutineScope()
 
