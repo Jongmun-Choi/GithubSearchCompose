@@ -1,10 +1,12 @@
 package com.dave.githubsearchcompose.view.main
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SecondaryTabRow
@@ -30,7 +32,7 @@ fun TabScreen(
 
     val pages = listOf(TabData("Search", R.drawable.ic_search, { UserListScreen() }), TabData("Profile", R.drawable.ic_profile, { ProfileScreen(viewModel = viewModel, user = null) }))
 
-    val coroutineScope = rememberCoroutineScope()
+    val pagerScope = rememberCoroutineScope()
 
     val pagerState = rememberPagerState(
         pageCount = { pages.size },
@@ -40,23 +42,25 @@ fun TabScreen(
     var tabIndex = pagerState.currentPage
 
     Column {
-        HorizontalPager(state = pagerState, userScrollEnabled = true, modifier = Modifier.fillMaxWidth().weight(1f)) {
-            pages[tabIndex].screen()
+        HorizontalPager(state = pagerState, userScrollEnabled = true, modifier = Modifier.fillMaxWidth().weight(1f), key = {pages[it].name}) { index ->
+            pages[index].screen()
         }
+
         SecondaryTabRow (
             selectedTabIndex = tabIndex,
-
             modifier = Modifier.fillMaxWidth()
                 .background(Purple40),
             containerColor = Purple40
 
         ) {
-            pages.forEachIndexed { index, title ->
+            pages.forEachIndexed { index, _ ->
                 Tab(
                     selected = tabIndex == index,
                     onClick = {
-                        tabIndex = index
-                        coroutineScope.launch {
+                        Log.i("TabScreen", "onClick")
+                        pagerScope.launch {
+
+                            Log.i("TabScreen", "launch")
                             pagerState.animateScrollToPage(index)
                         }
                     }

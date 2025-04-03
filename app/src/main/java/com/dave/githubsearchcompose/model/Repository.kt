@@ -15,4 +15,6 @@ data class Repository(
     val url : String,
     @field:Json(name = "description")
     val description : String?
-)
+){
+    fun getRepositoryDescription() = description ?: "No description"
+}
