@@ -105,5 +105,6 @@ dependencies {
     // HorizontalPager
     implementation(libs.accompanist.pager)
 
-
+    // Paging
+    implementation(libs.androidx.paging.compose)
 }

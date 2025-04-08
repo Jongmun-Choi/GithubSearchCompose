@@ -30,7 +30,7 @@ fun TabScreen(
     viewModel: UserViewModel
 ) {
 
-    val pages = listOf(TabData("Search", R.drawable.ic_search, { UserListScreen() }), TabData("Profile", R.drawable.ic_profile, { ProfileScreen(viewModel = viewModel, user = null) }))
+    val pages = listOf(TabData("Search", R.drawable.ic_search, { UserListScreen(viewModel) }), TabData("Profile", R.drawable.ic_profile, { ProfileScreen(viewModel = viewModel, user = null) }))
 
     val pagerScope = rememberCoroutineScope()
 
