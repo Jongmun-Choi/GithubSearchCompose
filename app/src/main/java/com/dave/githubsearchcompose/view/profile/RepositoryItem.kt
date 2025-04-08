@@ -1,7 +1,7 @@
 package com.dave.githubsearchcompose.view.profile
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,29 +15,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.dave.githubsearchcompose.R
 import com.dave.githubsearchcompose.model.Repository
-import java.nio.file.WatchEvent
 
 @Composable
 fun RepositoryItem(
-    repository: Repository,
-    onItemClick: () -> Unit,
+    repository: Repository
 ) {
+    val uriHandler = LocalUriHandler.current
 
     Column(
         modifier = Modifier.fillMaxWidth()
-            .border(1.dp, Color.Gray)
             .clip(RoundedCornerShape(6.dp))
             .padding(8.dp)
+            .clickable(onClick = {
+                uriHandler.openUri(repository.url)
+            }),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth()
                 .align(Alignment.Start)
         ) {
-            Text(repository.name)
+            Text(text = repository.name,
+                fontWeight = FontWeight.Bold
+            )
             Row( modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End) {
                 Image(
@@ -48,7 +54,9 @@ fun RepositoryItem(
         }
 
         Text(repository.getRepositoryDescription())
-        Text(repository.url)
+        Text(text = repository.url,
+            textDecoration = TextDecoration.Underline,
+            color = Color.Blue)
     }
 
 }
