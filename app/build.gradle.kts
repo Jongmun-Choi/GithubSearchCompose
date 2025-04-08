@@ -102,4 +102,8 @@ dependencies {
     // Glide
     implementation(libs.compose)
 
+    // HorizontalPager
+    implementation(libs.accompanist.pager)
+
+
 }
