@@ -3,6 +3,8 @@ package com.dave.githubsearchcompose.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.dave.githubsearchcompose.model.Repository
 import com.dave.githubsearchcompose.model.User
 import com.dave.githubsearchcompose.repository.ApiRepository
@@ -22,6 +24,11 @@ class UserViewModel @Inject constructor(application: Application, private val re
 
     private val _userRepos = MutableStateFlow<MutableList<Repository>>(mutableListOf())
     val userRepos : StateFlow<List<Repository>> = _userRepos.asStateFlow()
+
+    private val _userList = MutableStateFlow<PagingData<User>>(PagingData.empty())
+    val userList : StateFlow<PagingData<User>> = _userList.asStateFlow()
+
+    private var pageNumber = 1
 
     fun getUserProfile(userName : String) =
         viewModelScope.launch {
@@ -74,5 +81,11 @@ class UserViewModel @Inject constructor(application: Application, private val re
                 }
         }
 
-
+    fun getSearchUserList(query : String, isReset : Boolean = false) = viewModelScope.launch {
+        repository.getSearchUser(query)
+            .cachedIn(viewModelScope)
+            .collect { userList ->
+                _userList.value = userList
+            }
+    }
 }
