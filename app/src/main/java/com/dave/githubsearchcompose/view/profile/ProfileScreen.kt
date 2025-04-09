@@ -47,7 +47,7 @@ fun ProfileScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        UserItem(userData)
+        UserItem(userData, {})
         Column {
             Text(
                 modifier = Modifier.background(color = Gray).fillMaxWidth().offset(x = 12.dp),

@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -39,9 +40,11 @@ fun FocusBorderEditText(
     @StringRes placeHolder: Int = -1,
     maxLength: Int = -1,
     keyboardType: KeyboardType = KeyboardType.Text,
+    imeActionButton: ImeAction = ImeAction.Default,
     @StringRes headerTitle: Int = -1,
     @StringRes errorMessage: Int = -1,
-    hint: String? = null
+    hint: String? = null,
+    imeActionButtonAction : () -> Unit = {}
 ) {
 
     Box {
@@ -87,7 +90,7 @@ fun FocusBorderEditText(
                 disabledIndicatorColor = grey_100
             ),
             shape = RoundedCornerShape(8.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType, imeAction = imeActionButton),
             visualTransformation = if (keyboardType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None
         )
     }
