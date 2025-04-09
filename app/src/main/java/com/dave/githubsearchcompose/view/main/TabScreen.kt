@@ -1,5 +1,6 @@
 package com.dave.githubsearchcompose.view.main
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -27,10 +28,10 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TabScreen(
-    viewModel: UserViewModel
+    viewModel: UserViewModel,
+    context: Context
 ) {
-
-    val pages = listOf(TabData("Search", R.drawable.ic_search, { UserListScreen(viewModel) }), TabData("Profile", R.drawable.ic_profile, { ProfileScreen(viewModel = viewModel, user = null) }))
+    val pages = listOf(TabData("Search", R.drawable.ic_search, { UserListScreen(viewModel = viewModel, context = context) }), TabData("Profile", R.drawable.ic_profile, { ProfileScreen(viewModel = viewModel, user = null) }))
 
     val pagerScope = rememberCoroutineScope()
 

@@ -1,6 +1,7 @@
 package com.dave.githubsearchcompose.view.component
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,9 +21,9 @@ import com.dave.githubsearchcompose.ui.theme.Black
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun UserItem(userData: User) {
+fun UserItem(userData: User, clickProcess: () -> Unit) {
 
-    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp)) {
+    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp).clickable { clickProcess() }) {
 
         GlideImage(model = userData.avatarUrl, modifier = Modifier.size(50.dp).border(1.dp, color = Black, shape = CircleShape).clip(
             CircleShape

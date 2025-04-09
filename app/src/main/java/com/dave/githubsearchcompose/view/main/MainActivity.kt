@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             GithubSearchComposeTheme {
-                TabScreen(viewModel)
+                TabScreen(viewModel, context = this@MainActivity)
             }
         }
     }
